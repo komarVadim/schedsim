@@ -58,7 +58,7 @@ else:
             jobs = ((i, t, size) for i, (t, size) in enumerate(jobs))
         jobs = [(jobid, float(t), float(size)) for jobid, t, size in jobs]
 
-error = (lambda: simulator.fixed_estimations(estimations)
+error = ((lambda: simulator.fixed_estimations(estimations))
          if args.read_estimations
          else lambda: simulator.lognorm_error(args.sigma))
 
