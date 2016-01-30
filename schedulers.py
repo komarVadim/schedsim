@@ -63,6 +63,27 @@ class FIFO(Scheduler):
        self.jobs = deque()
 
     def enqueue(self, t, jobid, size):
+        self.jobs.appendleft(jobid)
+
+    def dequeue(self, t, jobid):
+        try:
+            self.jobs.remove(jobid)
+        except ValueError:
+            raise ValueError("dequeuing missing job")
+
+    def schedule(self, t):
+        jobs = self.jobs
+        if jobs:
+            return {jobs[0]: 1}
+        else:
+            return {}
+
+
+class LIFO(Scheduler):
+    def __init__(self): 
+       self.jobs = deque()
+
+    def enqueue(self, t, jobid, size):
         self.jobs.append(jobid)
 
     def dequeue(self, t, jobid):
@@ -77,6 +98,7 @@ class FIFO(Scheduler):
             return {jobs[0]: 1}
         else:
             return {}
+
 
 
 class SRPT(Scheduler):

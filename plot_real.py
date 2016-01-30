@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, ScalarFormatter, AutoLocator
 
 old_names = {'FIFO': 'FIFO',
+             'LIFO': 'LIFO',
              'PS': 'PS',
              'SRPT': 'SRPT (no error)',
              'FSP': 'FSP (no error)',
@@ -24,15 +25,15 @@ old_names = {'FIFO': 'FIFO',
              'FSPE+PS': 'FSP + PS',
              'FSPE+LAS': 'FSP + LAS'}
 
-names = ['FIFO', 'PS', 'SRPT', 'FSP', 'LAS', 'SRPTE', 'SRPTE+PS', 'SRPTE+LAS',
+names = ['FIFO', 'LIFO', 'PS', 'SRPT', 'FSP', 'LAS', 'SRPTE', 'SRPTE+PS', 'SRPTE+LAS',
          'FSPE', 'FSPE+PS', 'FSPE+LAS']
 
-plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO'.split()
+plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO LIFO'.split()
 
-styles = {'FIFO': ':+', 'PS': '-+', 'LAS': '--+',
+styles = {'FIFO': ':+', 'PS': '-+', 'LAS': '--+', 'LIFO':'--x',
           'SRPTE': '--x', 'FSPE': ':x', 'FSPE+PS': '-x'}
 
-colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6',
+colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6',  'LIFO':'r',
           'SRPTE': 'r', 'FSPE': 'r', 'FSPE+PS': 'r'}        
 
 parser = argparse.ArgumentParser(description="plot of mean sojourn time")

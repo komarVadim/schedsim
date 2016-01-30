@@ -68,6 +68,7 @@ def error(_):
                     
 instances = [
     ('FIFO', schedulers.FIFO, simulator.identity, None),
+    ('LIFO', schedulers.LIFO, simulator.identity, None),
     ('PS', schedulers.PS, simulator.identity, None),
     ('SRPT', schedulers.SRPT, simulator.identity, None),
     ('FSP', schedulers.FSP, simulator.identity, None),

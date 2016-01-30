@@ -16,12 +16,12 @@ import weibull_workload
 
 axes = 'shape sigma load timeshape njobs'.split()
 
-plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO'.split()
+plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO LIFO'.split()
 
-styles = {'FIFO': ':', 'PS': '-', 'LAS': '--',
+styles = {'FIFO': ':', 'PS': '-', 'LAS': '--', 'LIFO': '---+',
           'SRPTE': '--', 'FSPE': ':', 'FSPE+PS': '-'}
 
-colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6',
+colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6', 'LIFO': 'r',
           'SRPTE': 'r', 'FSPE': 'r', 'FSPE+PS': 'r'}        
 
 parser = argparse.ArgumentParser(description="plot size vs. sojourn time")

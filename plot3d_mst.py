@@ -12,6 +12,7 @@ from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 
 old_names = {'FIFO': 'FIFO',
+             'LIFO': 'LIFO',
              'PS': 'PS',
              'SRPT': 'SRPT (no error)',
              'FSP': 'FSP (no error)',

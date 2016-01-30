@@ -17,7 +17,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 import plot_helpers
 
-names = ['FIFO', 'PS', 'SRPT', 'FSP', 'LAS', 'SRPTE', 'SRPTE+PS', 'SRPTE+LAS',
+names = ['FIFO', 'LIFO', 'PS', 'SRPT', 'FSP', 'LAS', 'SRPTE', 'SRPTE+PS', 'SRPTE+LAS',
          'FSPE', 'FSPE+PS', 'FSPE+LAS']
 axes = 'shape sigma load timeshape njobs est_factor'.split()
 
