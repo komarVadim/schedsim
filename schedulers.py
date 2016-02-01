@@ -59,11 +59,11 @@ class GPS(Scheduler):
             return {}
 
 class FIFO(Scheduler):
-    def __init__(self): 
-       self.jobs = deque()
+    def __init__(self):
+        self.jobs = deque()
 
     def enqueue(self, t, jobid, size):
-        self.jobs.appendleft(jobid)
+        self.jobs.append(jobid)
 
     def dequeue(self, t, jobid):
         try:
@@ -80,11 +80,11 @@ class FIFO(Scheduler):
 
 
 class LIFO(Scheduler):
-    def __init__(self): 
-       self.jobs = deque()
+    def __init__(self):
+        self.jobs = deque()
 
     def enqueue(self, t, jobid, size):
-        self.jobs.append(jobid)
+        self.jobs.appendleft(jobid)
 
     def dequeue(self, t, jobid):
         try:
@@ -95,7 +95,7 @@ class LIFO(Scheduler):
     def schedule(self, t):
         jobs = self.jobs
         if jobs:
-            return {jobs[0]: 1}
+            return {jobs[len(jobs)-1]: 1}
         else:
             return {}
 

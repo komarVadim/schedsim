@@ -2,7 +2,7 @@
 
 export LC_NUMERIC=C # avoids problems with seq
 
-for workload in FB09-0 FB09-1 FB10; do
+for workload in FB09-0; do
     echo ==============================================================
     echo                      $workload
     echo ==============================================================
@@ -11,7 +11,7 @@ for workload in FB09-0 FB09-1 FB10; do
     echo                      varying sigma
     echo --------------------------------------------------------------
     echo
-    for sigma in 0.125 0.25 0.5 1 2; do
+    for sigma in 0.5; do
     	echo sigma=$sigma
 	echo ---------
 	echo ./experiment.py --parse_swim $workload.tsv --sigma $sigma 100
