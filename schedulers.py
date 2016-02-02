@@ -82,9 +82,13 @@ class FIFO(Scheduler):
 class LIFO(Scheduler):
     def __init__(self):
         self.jobs = deque()
+        self.jobs_all = deque()
+        self.current_job = None
 
     def enqueue(self, t, jobid, size):
-        self.jobs.appendleft(jobid)
+        self.jobs.append(jobid)
+        self.jobs_all.append((t, jobid, size))
+
 
     def dequeue(self, t, jobid):
         try:
