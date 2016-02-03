@@ -82,24 +82,45 @@ class FIFO(Scheduler):
 class LIFO(Scheduler):
     def __init__(self):
         self.jobs = deque()
-        self.jobs_all = deque()
         self.current_job = None
 
     def enqueue(self, t, jobid, size):
-        self.jobs.append(jobid)
-        self.jobs_all.append((t, jobid, size))
-
+        if self.current_job is None :
+            self.current_job = jobid
+            self.jobs.appendleft(jobid)
+        else:
+            self.jobs.rotate(-1)
+            self.jobs.appendleft(jobid)
+            self.jobs.rotate(1)
+        print "in enqueue :"+ str(jobid) +" at "+ str(t) +" with size "+str(size)
+        print " (cur):"+ str(self.current_job)+" jobs "+ str(self.jobs)
+        print
+        print
 
     def dequeue(self, t, jobid):
         try:
             self.jobs.remove(jobid)
+            self.current_job = None
+            print "in dequeue :" + str(jobid) +" at "+ str(t)
+            print " (cur):"+ str(self.current_job)+" jobs "+ str(self.jobs)
+            print
+            print
+
         except ValueError:
             raise ValueError("dequeuing missing job")
 
     def schedule(self, t):
+        print "in schedule :" +" at "+ str(t)
+        print "cur jobs all "+str(self.jobs)+"  (cur):"+ str(self.current_job)
+        print
+        print
+
         jobs = self.jobs
-        if jobs:
-            return {jobs[len(jobs)-1]: 1}
+        if jobs and (self.current_job is None):
+            self.current_job = jobs[0]
+            return {jobs[0]: 1}
+        elif self.current_job is not None:
+            return {self.current_job: 1}
         else:
             return {}
 
