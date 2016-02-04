@@ -43,21 +43,21 @@ class TestScheduler(unittest.TestCase):
 #         self.run_and_assertEqual([('job1', 0, 10), ('job2', 5, 10), ('job3', 8, 10)],
 #                                  [(10, 'job1'), (20, 'job2')])
 #
-class TestLIFO(TestScheduler):
-    scheduler = schedulers.LIFO
-
-    # for small jobs order like for FIFO
-    def test_like_FIFO(self):
-        self.run_and_assertEqual([('job1', 0, 1), ('job2', 3, 1), ('job3', 12, 1),('job4', 7, 1)],
-                                 [(1, 'job1'), (4,'job2'), (8, 'job4'),(13, 'job3')])
-
-    def test_two_delayed(self):
-        self.run_and_assertEqual([('job1', 0, 10), ('job2', 5, 10)],
-                                 [(10, 'job1'), (20, 'job2')])
-
-    def test_delayed_reordered(self):
-        self.run_and_assertEqual([('job1', 0, 10), ('job2', 5, 10), ('job3', 6, 10),],
-                                 [(10, 'job1'), (20, 'job3'), (30, 'job2')])
+# class TestLIFO(TestScheduler):
+#     scheduler = schedulers.LIFO
+#
+#     # for small jobs order like for FIFO
+#     def test_like_FIFO(self):
+#         self.run_and_assertEqual([('job1', 0, 1), ('job2', 3, 1), ('job3', 12, 1),('job4', 7, 1)],
+#                                  [(1, 'job1'), (4,'job2'), (8, 'job4'),(13, 'job3')])
+#
+#     def test_two_delayed(self):
+#         self.run_and_assertEqual([('job1', 0, 10), ('job2', 5, 10)],
+#                                  [(10, 'job1'), (20, 'job2')])
+#
+#     def test_delayed_reordered(self):
+#         self.run_and_assertEqual([('job1', 0, 10), ('job2', 5, 10), ('job3', 6, 10),],
+#                                  [(10, 'job1'), (20, 'job3'), (30, 'job2')])
 
 
 # class TestPS(TestScheduler):
@@ -72,27 +72,27 @@ class TestLIFO(TestScheduler):
 #                                  [(15, 'job1'), (20, 'job2')])
 #
 #
-# class TestSRPT(TestScheduler):
-#     scheduler = schedulers.SRPT
-#
-#     def test_two(self):
-#         self.run_and_assertEqual([('job1', 0, 20), ('job21', 0, 10)],
-#                                  [(10, 'job2'), (30, 'job1')])
-#
-#     def test_two_delayed(self):
-#         self.run_and_assertEqual([('job1', 0, 20), ('job2', 5, 5)],
-#                                  [(15, 'job2'), (30, 'job11')])
-#
-#     def test_starvation(self):
-#         self.run_and_assertEqual([('job1', 0, 15),
-#                                   ('job2', 0, 10),
-#                                   ('job3', 5, 10),
-#                                   ('job4', 15, 10)],
-#                                  [(10, 'job2'),
-#                                   (20, 'job3'),
-#                                   (30, 'job4'),
-#                                   (45, 'job11')])
-#
+class TestSRPT(TestScheduler):
+    scheduler = schedulers.SRPT
+
+    def test_two(self):
+        self.run_and_assertEqual([('job1', 0, 20), ('job2', 0, 10)],
+                                 [(10, 'job2'), (30, 'job1')])
+
+    def test_two_delayed(self):
+        self.run_and_assertEqual([('job1', 0, 20), ('job2', 5, 5)],
+                                 [(10, 'job2'), (25, 'job1')])
+
+    def test_starvation(self):
+        self.run_and_assertEqual([('job1', 0, 15),
+                                  ('job2', 0, 10),
+                                  ('job3', 5, 10),
+                                  ('job4', 15, 10)],
+                                 [(10, 'job2'),
+                                  (20, 'job3'),
+                                  (30, 'job4'),
+                                  (45, 'job1')])
+# #
 #
 # class TestFSP(TestScheduler):
 #     scheduler = schedulers.FSP
