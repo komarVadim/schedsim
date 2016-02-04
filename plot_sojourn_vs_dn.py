@@ -52,20 +52,23 @@ figures = [("No error", float(0), no_error, no_error_data),
             args.sigma, with_error, with_error_data)]
 
 for title, sigma, schedulers, data in figures:
-    plt.figure(title)
+    fig = plt.figure(title)
+    ax = fig.add_subplot(111)
     plt.xlabel("$d/n$")
     plt.ylabel("mean sojourn time (s)")
 
     for scheduler, mst, style in zip(schedulers, data,
                                      plot_helpers.cycle_styles('x')):
-        plt.semilogy(dns, mst, style, label=scheduler)
-    plt.grid()
-    plt.legend(loc=2)
+        ax.semilogy(dns, mst, style, label=scheduler)
+    ax.grid()
+    handles, labels = ax.get_legend_handles_labels()
+    lgd = ax.legend(handles, labels, loc=2, bbox_to_anchor=(1, 1))
+    ax.grid('on')
 
     if args.for_paper:
         fmt = 'sojourn-vs-dn_{}_{}_{}.pdf'
         fname = fmt.format(args.dataset, sigma, args.load)
-        plt.savefig(fname)
+        plt.savefig(fname,bbox_extra_artists=(lgd,), bbox_inches='tight')
 
 if not args.for_paper:
     plt.show()
