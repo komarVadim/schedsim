@@ -149,6 +149,49 @@ class SRPT(Scheduler):
         else:
             return {}
 
+class SRPTplusLIFO(Scheduler):
+    def __init__(self):
+        self.jobs = []
+        self.last_t = 0
+
+    def update(self, t):
+        delta = t - self.last_t
+        if delta == 0:
+            return
+        jobs = self.jobs
+        if jobs:
+            jobs[0][0] -= delta
+        self.last_t = t
+
+    def enqueue(self, t, jobid, job_size):
+        self.update(t)
+        heappush(self.jobs, [job_size, jobid])
+
+    def dequeue(self, t, jobid):
+        jobs = self.jobs
+        self.update(t)
+        # common case: we dequeue the running job
+        if jobid == jobs[0][1]:
+            heappop(jobs)
+            return
+        # we still care if we dequeue a job not running (O(n)) --
+        # could be made more efficient, but still O(n) because of the
+        # search, by exploiting heap properties (i.e., local heappop)
+        try:
+            idx = next(i for i, v in jobs if v[1] == jobid)
+        except StopIteration:
+            raise ValueError("dequeuing missing job")
+        jobs[idx], jobs[-1] = jobs[-1], jobs[idx]
+        jobs.pop()
+        heapify(jobs)
+
+    def schedule(self, t):
+        self.update(t)
+        jobs = self.jobs
+        if jobs:
+            return {jobs[0][1]: 1}
+        else:
+            return {}
 
 class SRPT_plus_PS(Scheduler):
 
@@ -212,6 +255,7 @@ class SRPT_plus_PS(Scheduler):
         jobs[idx], jobs[-1] = jobs[-1], jobs[idx]
         jobs.pop()
         heapify(jobs)
+
 
 
 class FSP(Scheduler):

@@ -1,4 +1,5 @@
 import unittest
+
 import schedulers
 import simulator
 
@@ -8,7 +9,6 @@ def normalize(output):
 
 
 class TestScheduler(unittest.TestCase):
-
     def setUp(self):
         if not hasattr(self, 'scheduler'):
             self.skipTest(reason="abstract TestScheduler class")
@@ -24,12 +24,12 @@ class TestScheduler(unittest.TestCase):
         result = self.run_jobs(jobs, error=f)
         return list(result)
 
-    # def test_empty(self):
-    #     self.assertEqual(self.run_jobs([]), [])
-    #
-    # def test_one(self):
-    #     result = self.run_jobs([("job1", 0, 10)])
-    #     self.assertEqual(result, [(10, "job1")])
+        # def test_empty(self):
+        #     self.assertEqual(self.run_jobs([]), [])
+        #
+        # def test_one(self):
+        #     result = self.run_jobs([("job1", 0, 10)])
+        #     self.assertEqual(result, [(10, "job1")])
 
 
 # class TestFIFO(TestScheduler):
@@ -92,6 +92,25 @@ class TestSRPT(TestScheduler):
                                   (20, 'job3'),
                                   (30, 'job4'),
                                   (45, 'job1')])
+
+
+class TestSRPTplusLIFO(TestScheduler):
+    scheduler = schedulers.SRPTplusLIFO
+
+    def test_one(self):
+        self.run_and_assertEqual([('job2', 2, 1),
+                                  ('job3', 6, 2),
+                                  ('job4', 7, 5),
+                                  ('job5', 8, 3),
+                                  ('job6', 10, 4)],
+                                 [(3.0, 'job1'),
+                                  (5.0, 'job3'),
+                                  (8.0, 'job4'),
+                                  (12.0, 'job5'),
+                                  (16.0, 'job6'),
+                                  (20.0, 'job2')])
+
+
 # #
 #
 # class TestFSP(TestScheduler):
