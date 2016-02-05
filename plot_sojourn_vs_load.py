@@ -52,7 +52,7 @@ figures = [("No error", float(0), no_error, no_error_data),
             args.sigma, with_error, with_error_data)]
 
 for title, sigma, schedulers, data in figures:
-    fig = plt.figure(title)
+    fig = plt.figure(scheduler)
     ax = fig.add_subplot(111)
     plt.xlabel("load")
     plt.ylabel("mean sojourn time (s)")

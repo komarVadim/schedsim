@@ -59,15 +59,13 @@ for scheduler, err_data in zip(with_error, with_error_data):
     for noerr_sched, noerr_data, style in zip(no_error, no_error_data,
                                               plot_helpers.cycle_styles()):
         ax.semilogy(xs, noerr_data, style, label=noerr_sched)
-    ax.grid()
-    handles, labels = ax.get_legend_handles_labels()
-    lgd = ax.legend(handles, labels, loc=2, bbox_to_anchor=(1, 1))
-    ax.grid('on')
-    plt.boxplot(err_data)
+    ax.boxplot(err_data)
     plt.xticks(range(1, len(sigmas) + 1), sigmas)
     plt.ylim(min([min(d) for d in no_error_data]) * 0.85,
              max([max(d) for d in no_error_data]) / 0.85)
-    
+    handles, labels = ax.get_legend_handles_labels()
+    lgd = ax.legend(handles, labels, loc=2, bbox_to_anchor=(1, 1))
+
     if args.for_paper:
         fmt = 'sojourn-vs-error_{}_{}_{}_{}.pdf'
         fname = fmt.format(scheduler, args.dataset, args.d_over_n, args.load)
