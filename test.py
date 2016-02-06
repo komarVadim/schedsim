@@ -98,17 +98,72 @@ class TestSRPTplusLIFO(TestScheduler):
     scheduler = schedulers.SRPTplusLIFO
 
     def test_one(self):
-        self.run_and_assertEqual([('job2', 2, 1),
+        self.run_and_assertEqual([('job1', 0, 4),
+                                  ('job2', 2, 1),
                                   ('job3', 6, 2),
                                   ('job4', 7, 5),
-                                  ('job5', 8, 3),
+                                  ('job5', 9, 3),
                                   ('job6', 10, 4)],
-                                 [(3.0, 'job1'),
-                                  (5.0, 'job3'),
-                                  (8.0, 'job4'),
+                                 [(3.0, 'job2'),
+                                  (5.0, 'job1'),
+                                  (8.0, 'job3'),
                                   (12.0, 'job5'),
                                   (16.0, 'job6'),
-                                  (20.0, 'job2')])
+                                  (20.0, 'job4')])
+
+    def test_two(self):
+        self.run_and_assertEqual([('job1', 0, 7),
+                                  ('job2', 3, 3),
+                                  ('job3', 5, 4),
+                                  ('job4', 8, 1),
+                                  ('job5', 10, 2),
+                                  ('job6', 12, 3)],
+                                 [(6.0, 'job2'),
+                                  (9.0, 'job4'),
+                                  (11.0, 'job3'),
+                                  (13.0, 'job5'),
+                                  (16.0, 'job6'),
+                                  (20.0, 'job1')])
+
+    def test_three(self):
+        self.run_and_assertEqual([('job1', 0, 5),
+                                  ('job2', 1, 5),
+                                  ('job3', 3, 4),
+                                  ('job4', 4, 8),
+                                  ('job5', 7, 8),
+                                  ('job6', 9, 2)],
+                                 [(5.0, 'job1'),
+                                  (11.0, 'job6'),
+                                  (15.0, 'job4'),
+                                  (23.0, 'job5'),
+                                  (27.0, 'job3'),
+                                  (32.0, 'job2')])
+
+    def test_four(self):
+        self.run_and_assertEqual([('job1', 0, 3),
+                                  ('job2', 1, 5),
+                                  ('job3', 4, 1)],
+                                 [(3.0, 'job1'),
+                                  (5.0, 'job3'),
+                                  (9.0, 'job2')])
+
+    def test_five(self):
+        self.run_and_assertEqual([('job1', 0, 10),
+                                  ('job2', 1, 8),
+                                  ('job3', 2, 6),
+                                  ('job4', 4, 1)],
+                                 [(5.0, 'job4'),
+                                  (9.0, 'job3'),
+                                  (16.0, 'job2'),
+                                  (25.0, 'job1')])
+
+    def test_six(self):
+        self.run_and_assertEqual([('job1', 0, 10),
+                                  ('job2', 1, 8),
+                                  ('job3', 4, 1)],
+                                 [(5.0, 'job3'),
+                                  (10.0, 'job2'),
+                                  (19.0, 'job1')])
 
 
 # #
