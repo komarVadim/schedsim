@@ -81,7 +81,7 @@ class FIFO(Scheduler):
 
 class LIFO(Scheduler):
     def __init__(self):
-        self.jobs = deque()
+        self.jobs = []
 
     def enqueue(self, t, jobid, size):
         if len(self.jobs) < 2:
