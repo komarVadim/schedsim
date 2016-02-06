@@ -94,8 +94,8 @@ class TestSRPT(TestScheduler):
                                   (45, 'job1')])
 
 
-class TestSRPTplusLIFO(TestScheduler):
-    scheduler = schedulers.SRPTplusLIFO
+class TestLIFO_SR(TestScheduler):
+    scheduler = schedulers.LIFO_SR
 
     def test_one(self):
         self.run_and_assertEqual([('job1', 0, 4),

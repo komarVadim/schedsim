@@ -61,10 +61,10 @@ if args.alt_schedulers:
               'SRPTE+PS': 'r', 'SRPTE+LAS': 'r',
               'PS': '0.6'}
 else:
-    plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO LIFO'.split()
-    styles = {'FIFO': ':', 'PS': '-', 'LAS': '--',  'LIFO': '--x', 
+    plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO LIFO LIFO_SR'.split()
+    styles = {'FIFO': ':', 'PS': '-', 'LAS': '--',  'LIFO': '--x', 'LIFO_SR': 'r',
               'SRPTE': '--', 'FSPE': ':', 'FSPE+PS': '-'}
-    colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6', 'LIFO': 'r',
+    colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6', 'LIFO': 'r', 'LIFO_SR': 'r',
               'SRPTE': 'r', 'FSPE': 'r', 'FSPE+PS': 'r'}        
 
 

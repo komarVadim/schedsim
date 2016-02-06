@@ -13,6 +13,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 old_names = {'FIFO': 'FIFO',
              'LIFO': 'LIFO',
+             'LIFO_SR': 'LIFO_SR',
              'PS': 'PS',
              'SRPT': 'SRPT (no error)',
              'FSP': 'FSP (no error)',

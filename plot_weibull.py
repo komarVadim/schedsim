@@ -12,16 +12,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, ScalarFormatter, AutoLocator
 
-names = ['FIFO', 'LIFO',  'PS', 'SRPT', 'FSP', 'LAS', 'SRPTE', 'SRPTE+PS', 'SRPTE+LAS',
+names = ['FIFO', 'LIFO', 'LIFO_SR', 'PS', 'SRPT', 'FSP', 'LAS', 'SRPTE', 'SRPTE+PS', 'SRPTE+LAS',
          'FSPE', 'FSPE+PS', 'FSPE+LAS']
 axes = 'shape sigma load timeshape njobs est_factor'.split()
 
-plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO LIFO'.split()
+plotted = 'SRPTE FSPE FSPE+PS PS LAS FIFO LIFO LIFO_SR'.split()
 
-styles = {'FIFO': ':+', 'PS': '-+', 'LAS': '--+', 'LIFO': '---+',
+styles = {'FIFO': ':+', 'PS': '-+', 'LAS': '--+', 'LIFO': '---+', 'LIFO_SR': '-xx',
           'SRPTE': '--x', 'FSPE': ':x', 'FSPE+PS': '-x'}
 
-colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6', 'LIFO': 'r',
+colors = {'FIFO': '0.6', 'PS': '0.6', 'LAS': '0.6', 'LIFO': 'r', 'LIFO_SR': 'r',
           'SRPTE': 'r', 'FSPE': 'r', 'FSPE+PS': 'r'}        
 
 parser = argparse.ArgumentParser(description="plot of mean sojourn time")

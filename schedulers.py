@@ -151,7 +151,7 @@ class SRPT(Scheduler):
         else:
             return {}
 
-class SRPTplusLIFO(Scheduler):
+class LIFO_SR(Scheduler):
     def __init__(self):
         self.jobs = []
         self.last_t = 0
