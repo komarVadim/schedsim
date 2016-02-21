@@ -34,8 +34,8 @@ shelve_files = sorted((float(fname.split('_')[3]), fname)
                       for fname in glob(glob_str))
 dns = [dn for dn, _ in shelve_files]
 
-no_error = ['FIFO', 'LIFO', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
-with_error = ['FIFO', 'LIFO','PS', 'LAS', 'FSP + FIFO', 'FSP + PS', 'SRPT']
+no_error = ['FIFO', 'LIFO', 'LIFO_SR', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
+with_error = ['FIFO', 'LIFO', 'LIFO_SR', 'PS', 'LAS', 'FSP + FIFO', 'FSP + PS', 'SRPT']
 
 no_error_data = [[] for _ in no_error]
 with_error_data = [[] for _ in with_error]

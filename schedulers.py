@@ -81,7 +81,7 @@ class FIFO(Scheduler):
 
 class LIFO(Scheduler):
     def __init__(self):
-        self.jobs = deque()
+        self.jobs = []
 
     def enqueue(self, t, jobid, size):
         if len(self.jobs) < 2:
@@ -141,6 +141,8 @@ class SRPT(Scheduler):
         jobs.pop()
         heapify(jobs)
 
+
+
     def schedule(self, t):
         self.update(t)
         jobs = self.jobs
@@ -149,6 +151,56 @@ class SRPT(Scheduler):
         else:
             return {}
 
+class LIFO_SR(Scheduler):
+    def __init__(self):
+        self.jobs = []
+        self.last_t = 0
+
+    def update(self, t):
+        delta = t - self.last_t
+        if delta == 0:
+            return
+        jobs = self.jobs
+        if jobs:
+            jobs[0][0] -= delta
+        self.last_t = t
+
+    def enqueue(self, t, jobid, job_size):
+        self.update(t)
+        jobs = self.jobs
+        if jobs and job_size < jobs[0][0]:
+            jobs.insert(0, [job_size, jobid])
+        else:
+            jobs.insert(1, [job_size, jobid])
+
+        # print("enqueue | jobs: " + str(self.jobs) + "   last_t:  " + str(self.last_t))
+
+    def dequeue(self, t, jobid):
+        jobs = self.jobs
+        self.update(t)
+        # common case: we dequeue the running job
+        if jobid == jobs[0][1]:
+            # print("dequeue | jobs: " + str(self.jobs) + "   last_t:  " + str(self.last_t))
+            jobs.pop(0)
+            return
+        # we still care if we dequeue a job not running (O(n)) --
+        # could be made more efficient, but still O(n) because of the
+        # search, by exploiting heap properties (i.e., local heappop)
+        # try:
+        #     idx = next(i for i, v in jobs if v[1] == jobid)
+        # except StopIteration:
+        #     raise ValueError("dequeuing missing job")
+        # jobs[idx], jobs[-1] = jobs[-1], jobs[idx]
+        # jobs.pop()
+        # heapify(jobs)
+
+    def schedule(self, t):
+        self.update(t)
+        jobs = self.jobs
+        if jobs:
+            return {jobs[0][1]: 1}
+        else:
+            return {}
 
 class SRPT_plus_PS(Scheduler):
 
@@ -212,6 +264,7 @@ class SRPT_plus_PS(Scheduler):
         jobs[idx], jobs[-1] = jobs[-1], jobs[idx]
         jobs.pop()
         heapify(jobs)
+
 
 
 class FSP(Scheduler):
@@ -349,7 +402,7 @@ class FSPE_PS_DC(FSP_plus_PS):
         else:
             return {}
 
-    
+
 class LAS(Scheduler):
 
     def __init__(self, eps=1e-6):
@@ -445,7 +498,7 @@ class LAS(Scheduler):
         else:
             service = 1 / len(jobids)
             self.scheduled = {attained: [(service, jobids.copy())]}
-            
+
         return {jobid: service for jobid in jobids}
 
     def next_internal_event(self):
@@ -598,7 +651,7 @@ class SRPT_plus_LAS(Scheduler):
         if queue:
             return queue[0][0] * (len(self.late) + 1) * self.eps
 
-        
+
 class FSP_plus_LAS(Scheduler):
 
     def __init__(self, eps=1e-6):
@@ -759,9 +812,9 @@ class FSP_plus_LAS(Scheduler):
                 res = delta
         return res
 
-    
+
 class PSBS(Scheduler):
-    
+
     def __init__(self, eps=1e-6):
         # heap of (gtime, jobid, weight) for the virtual time
         self.queue = []
@@ -799,7 +852,7 @@ class PSBS(Scheduler):
 
         if w <= 0:
             raise ValueError("w needs to be positive")
-        
+
         self.update(t) # we need to age only existing jobs in the virtual queue
         heappush(self.queue, (self.gtime + size / w, jobid, w))
         self.virtual_w += w
@@ -814,7 +867,7 @@ class PSBS(Scheduler):
             del late[jobid]
 
     def update(self, t):
-        
+
         delta = t - self.last_t
 
         virtual_w = self.virtual_w
@@ -824,7 +877,7 @@ class PSBS(Scheduler):
             early = self.early
             running = self.running
             late = self.late
-            
+
             fair_share = delta / virtual_w
 
             self.gtime = gtime = self.gtime + fair_share
@@ -846,7 +899,7 @@ class PSBS(Scheduler):
                 self.virtual_w = 0
             else:
                 assert self.virtual_w > 0
-            
+
         self.last_t = t
 
     def schedule(self, t):
@@ -887,7 +940,7 @@ class PSBS(Scheduler):
         return (v - self.gtime) * self.virtual_w
 
 WFQE_GPS = PSBS
-    
+
 class FSPE_PS(WFQE_GPS):
     def enqueue(self, t, jobid, size, w=None):
         super(FSPE_PS, self).enqueue(t, jobid, size, 1)

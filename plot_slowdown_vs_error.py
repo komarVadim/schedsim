@@ -52,7 +52,7 @@ if not args.fname:
 else:
     fname = args.fname
 
-no_error = ['FIFO', 'LIFO', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
+no_error = ['FIFO', 'LIFO', 'LIFO_SR', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
 with_error = ['LAS', 'FSP + FIFO', 'FSP + PS', 'SRPT']
 
 if args.tsv:

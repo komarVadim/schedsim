@@ -34,8 +34,8 @@ shelve_files = sorted((float(fname.split('_')[4][:-2]), fname)
                       for fname in glob(glob_str))
 loads = [load for load, _ in shelve_files]
 
-no_error = ['FIFO','LIFO', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
-with_error = ['FIFO', 'LIFO', 'PS', 'LAS', 'FSP + FIFO', 'FSP + PS', 'SRPT']
+no_error = ['FIFO','LIFO', 'LIFO_SR', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
+with_error = ['FIFO', 'LIFO', 'LIFO_SR', 'PS', 'LAS', 'FSP + FIFO', 'FSP + PS', 'SRPT']
 
 no_error_data = [[] for _ in no_error]
 with_error_data = [[] for _ in with_error]
@@ -52,19 +52,22 @@ figures = [("No error", float(0), no_error, no_error_data),
             args.sigma, with_error, with_error_data)]
 
 for title, sigma, schedulers, data in figures:
-    plt.figure(title)
+    fig = plt.figure(scheduler)
+    ax = fig.add_subplot(111)
     plt.xlabel("load")
     plt.ylabel("mean sojourn time (s)")
     for scheduler, mst, style in zip(schedulers, data,
                                      plot_helpers.cycle_styles('x')):
-        plt.semilogy(loads, mst, style, label=scheduler)
-    plt.grid()
-    plt.legend(loc=2)
+        ax.semilogy(loads, mst, style, label=scheduler)
+    ax.grid()
+    handles, labels = ax.get_legend_handles_labels()
+    lgd = ax.legend(handles, labels, loc=2, bbox_to_anchor=(1, 1))
+    ax.grid('on')
 
     if args.for_paper:
         fmt = 'sojourn-vs-load_{}_{}_{}.pdf'
         fname = fmt.format(args.dataset, sigma, args.d_over_n)
-        plt.savefig(fname)
+        plt.savefig(fname,bbox_extra_artists=(lgd,), bbox_inches='tight')
 
 if not args.for_paper:
     plt.show()

@@ -65,6 +65,7 @@ error = ((lambda: simulator.fixed_estimations(estimations))
 instances = [
     ('FIFO', schedulers.FIFO, simulator.identity, None),
     ('LIFO', schedulers.LIFO, simulator.identity, None),
+    ('LIFO_SR', schedulers.LIFO_SR, simulator.identity, None),
     ('PS', schedulers.PS, simulator.identity, None),
     ('SRPT (no error)', schedulers.SRPT, simulator.identity, None),
     ('FSP (no error)', schedulers.FSP, simulator.identity, None),

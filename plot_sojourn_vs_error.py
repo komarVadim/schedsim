@@ -35,7 +35,7 @@ shelve_files = sorted((float(fname.split('_')[2]), fname)
                       for fname in glob(glob_str))
 sigmas = [sigma for sigma, _ in shelve_files]
 
-no_error = ['FIFO', 'LIFO', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
+no_error = ['FIFO', 'LIFO', 'LIFO_SR', 'PS', 'LAS', 'FSP (no error)', 'SRPT (no error)']
 with_error = ['FSP + FIFO', 'FSP + PS', 'SRPT']
 
 no_error_data = [[] for _ in no_error]
@@ -49,7 +49,8 @@ for sigma, fname in shelve_files:
         with_error_data[i].append([r.mean() for r in res[scheduler]])
 
 for scheduler, err_data in zip(with_error, with_error_data):
-    plt.figure(scheduler)
+    fig = plt.figure(scheduler)
+    ax = fig.add_subplot(111)
     plt.xlabel("$\sigma$")
     plt.ylabel("mean sojourn time (s)")
     xs = list(range(1, len(sigmas) + 1))
@@ -57,17 +58,18 @@ for scheduler, err_data in zip(with_error, with_error_data):
     xs[-1] += 1
     for noerr_sched, noerr_data, style in zip(no_error, no_error_data,
                                               plot_helpers.cycle_styles()):
-        plt.semilogy(xs, noerr_data, style, label=noerr_sched)
-    plt.boxplot(err_data)
+        ax.semilogy(xs, noerr_data, style, label=noerr_sched)
+    ax.boxplot(err_data)
     plt.xticks(range(1, len(sigmas) + 1), sigmas)
     plt.ylim(min([min(d) for d in no_error_data]) * 0.85,
              max([max(d) for d in no_error_data]) / 0.85)
-    plt.legend(loc=2)
+    handles, labels = ax.get_legend_handles_labels()
+    lgd = ax.legend(handles, labels, loc=2, bbox_to_anchor=(1, 1))
 
     if args.for_paper:
         fmt = 'sojourn-vs-error_{}_{}_{}_{}.pdf'
         fname = fmt.format(scheduler, args.dataset, args.d_over_n, args.load)
-        plt.savefig(fname)
+        plt.savefig(fname,bbox_extra_artists=(lgd,), bbox_inches='tight')
 
 if not args.for_paper:
     plt.show()
